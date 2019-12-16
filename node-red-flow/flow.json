@@ -1,0 +1,110 @@
+[
+    {
+        "id": "e5c0d4d3.9bec28",
+        "type": "tab",
+        "label": "フロー 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "114318ab.d57b37",
+        "type": "http in",
+        "z": "e5c0d4d3.9bec28",
+        "name": "",
+        "url": "/send",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 90,
+        "y": 60,
+        "wires": [
+            [
+                "598e273b.aa04c8"
+            ]
+        ]
+    },
+    {
+        "id": "6b11ff54.535bc",
+        "type": "debug",
+        "z": "e5c0d4d3.9bec28",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 780,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "f111099.97f1df8",
+        "type": "http response",
+        "z": "e5c0d4d3.9bec28",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 730,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "d63ccbc5.a2f1c8",
+        "type": "exec",
+        "z": "e5c0d4d3.9bec28",
+        "command": "/usr/bin/python3 /home/pi/irrp/irrp.py -p -g17 -f /home/pi/irrp/codes ",
+        "addpay": true,
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "oldrc": false,
+        "name": "",
+        "x": 390,
+        "y": 300,
+        "wires": [
+            [
+                "6b11ff54.535bc"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "22c45fca.d6133",
+        "type": "split",
+        "z": "e5c0d4d3.9bec28",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "cmd",
+        "x": 190,
+        "y": 200,
+        "wires": [
+            [
+                "6b11ff54.535bc",
+                "d63ccbc5.a2f1c8"
+            ]
+        ]
+    },
+    {
+        "id": "598e273b.aa04c8",
+        "type": "json",
+        "z": "e5c0d4d3.9bec28",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 290,
+        "y": 60,
+        "wires": [
+            [
+                "22c45fca.d6133",
+                "f111099.97f1df8"
+            ]
+        ]
+    }
+]

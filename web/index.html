@@ -1,0 +1,80 @@
+<html>
+<head>
+    <title>おうちリモコン</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <script>
+
+    function send_data(cmd)
+    {
+        console.log("send_data("+cmd+")");
+        //json
+        var json = 
+        {
+            "cmd":cmd
+        };
+
+        
+        //
+        // POST
+        //			
+        var xhrReq = new XMLHttpRequest();
+        xhrReq.onreadystatechange = function() 
+        {
+            if (xhrReq.readyState == 4 && xhrReq.status == 200) 
+            {
+                var retText = xhrReq.responseText;
+                var ret = JSON.parse(retText);
+                
+                console.log(retText);
+            }
+            else if (xhrReq.readyState == 4 && xhrReq.status != 200) 
+            {
+                alert("失敗("+xhrReq.status+"");
+            }
+        };
+        xhrReq.open("POST", "http://192.168.11.11:1880/send", true);
+        xhrReq.setRequestHeader("Content-Type", "text/json");
+        xhrReq.send(JSON.stringify(json));
+    }
+    </script>
+</head>
+
+<body>
+<div class="container">
+    <h1>テレビ</h1>
+    <button type="button" class="btn btn-primary" onclick="send_data('tv:power');">Power</button>
+
+    <br/>
+
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-secondary" onclick="send_data('tv:chup');">Ch+</button>
+        <button type="button" class="btn btn-secondary" onclick="send_data('tv:chdown');">Ch-</button>
+    </div>
+
+    <br/>
+
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-secondary" onclick="send_data('tv:volup');">Vol+</button>
+        <button type="button" class="btn btn-secondary" onclick="send_data('tv:voldown');">Vol-</button>
+    </div>
+
+    <br/>
+
+    <button type="button" class="btn btn-primary" onclick="send_data('tv:aux');">AUX</button>
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-secondary" onclick="send_data('tv:up');">↑</button>
+        <button type="button" class="btn btn-secondary" onclick="send_data('tv:ok');">OK</button>
+        <button type="button" class="btn btn-secondary" onclick="send_data('tv:down');">↓</button>
+    </div>
+
+    <h1>照明</h1>
+    <button type="button" class="btn btn-primary" onclick="send_data('light:on');">On/Off</button>
+    <button type="button" class="btn btn-primary" onclick="send_data('light:full');">全灯</button>
+    <button type="button" class="btn btn-primary" onclick="send_data('light:min');">保安灯</button>
+
+</div>
+</html>
